@@ -6,6 +6,8 @@ public interface NewsContract {
 
     interface View extends MvpView {
 
+        void onShowLoading(boolean loading);
+
     }
 
     interface Presenter {
