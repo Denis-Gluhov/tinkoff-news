@@ -5,13 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-@Entity(tableName = "news")
-public class News {
+@Entity(tableName = "news_info")
+public class NewsInfo {
 
     @NonNull
     @PrimaryKey
@@ -24,11 +19,19 @@ public class News {
     @ColumnInfo(name = "publication_date")
     private long publicationDate;
 
-    public News(@NonNull String id, String name, String text, long publicationDate) {
+    @ColumnInfo(name = "last_modification_date")
+    private long lastModificationDate;
+
+    private String content;
+
+    public NewsInfo(@NonNull String id, String name, String text, long publicationDate,
+                    long lastModificationDate, String content) {
         this.id = id;
         this.name = name;
         this.text = text;
         this.publicationDate = publicationDate;
+        this.lastModificationDate = lastModificationDate;
+        this.content = content;
     }
 
     @NonNull
@@ -56,17 +59,27 @@ public class News {
         this.text = text;
     }
 
-    public String convertPublicationDate() {
-        Date date = new Date(publicationDate);
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
-        return dateFormat.format(date);
-    }
-
     public long getPublicationDate() {
         return publicationDate;
     }
 
     public void setPublicationDate(long publicationDate) {
         this.publicationDate = publicationDate;
+    }
+
+    public long getLastModificationDate() {
+        return lastModificationDate;
+    }
+
+    public void setLastModificationDate(long lastModificationDate) {
+        this.lastModificationDate = lastModificationDate;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
