@@ -2,13 +2,15 @@ package ru.trmedia.tinkoff_news;
 
 import android.app.Application;
 
+import ru.trmedia.tinkoff_news.ui.detailnews.DetailNewsComponent;
+import ru.trmedia.tinkoff_news.ui.detailnews.DetailNewsModule;
 import ru.trmedia.tinkoff_news.di.AppComponent;
 import ru.trmedia.tinkoff_news.di.AppModule;
 import ru.trmedia.tinkoff_news.di.DaggerAppComponent;
 import ru.trmedia.tinkoff_news.di.DatabaseModule;
 import ru.trmedia.tinkoff_news.di.NetworkModule;
-import ru.trmedia.tinkoff_news.news.NewsComponent;
-import ru.trmedia.tinkoff_news.news.NewsModule;
+import ru.trmedia.tinkoff_news.ui.news.NewsComponent;
+import ru.trmedia.tinkoff_news.ui.news.NewsModule;
 
 public class App extends Application {
 
@@ -20,6 +22,7 @@ public class App extends Application {
 
     private AppComponent appComponent;
     private NewsComponent newsComponent;
+    private DetailNewsComponent detailNewsComponent;
 
     @Override
     public void onCreate() {
@@ -44,5 +47,15 @@ public class App extends Application {
 
     public void clearNewsComponent() {
         newsComponent = null;
+    }
+
+    public DetailNewsComponent createDetailNewsComponent() {
+        if (detailNewsComponent == null)
+            detailNewsComponent = appComponent.createDetailNewsComponent(new DetailNewsModule());
+        return detailNewsComponent;
+    }
+
+    public void clearDetailNewsComponent() {
+        detailNewsComponent = null;
     }
 }

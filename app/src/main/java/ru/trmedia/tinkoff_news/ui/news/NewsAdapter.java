@@ -1,4 +1,4 @@
-package ru.trmedia.tinkoff_news.news;
+package ru.trmedia.tinkoff_news.ui.news;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

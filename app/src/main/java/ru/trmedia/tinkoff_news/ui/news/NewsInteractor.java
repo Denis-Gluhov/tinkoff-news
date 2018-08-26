@@ -1,4 +1,4 @@
-package ru.trmedia.tinkoff_news.news;
+package ru.trmedia.tinkoff_news.ui.news;
 
 import android.support.annotation.NonNull;
 
@@ -10,7 +10,7 @@ import ru.trmedia.tinkoff_news.database.dao.NewsDao;
 import ru.trmedia.tinkoff_news.database.entity.News;
 import ru.trmedia.tinkoff_news.network.TinkoffApi;
 import ru.trmedia.tinkoff_news.network.model.Payload;
-import ru.trmedia.tinkoff_news.network.model.Response;
+import ru.trmedia.tinkoff_news.network.model.ResponsePayload;
 
 class NewsInteractor implements NewsContract.Interactor {
 
@@ -28,7 +28,7 @@ class NewsInteractor implements NewsContract.Interactor {
     @Override
     public Maybe<List<News>> loadData() {
         return tinkoffApi.getAllNews()
-                .flatMapIterable(Response::getPayload)
+                .flatMapIterable(ResponsePayload::getPayload)
                 .flatMap(this::payloadToNews)
                 .toList()
                 .flatMapMaybe(news -> {
@@ -43,7 +43,7 @@ class NewsInteractor implements NewsContract.Interactor {
     @NonNull
     private Observable<News> payloadToNews(@NonNull Payload payload) {
         News news = new News(payload.getId(), payload.getName(), payload.getText(),
-                    payload.getPublicationDate().getMilliseconds());
+                    payload.getDate().getMilliseconds());
         return Observable.just(news);
     }
 }

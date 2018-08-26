@@ -5,6 +5,11 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 @Entity(tableName = "news_info")
 public class NewsInfo {
 
@@ -73,6 +78,12 @@ public class NewsInfo {
 
     public void setLastModificationDate(long lastModificationDate) {
         this.lastModificationDate = lastModificationDate;
+    }
+
+    public String convertPublicationDate() {
+        Date date = new Date(publicationDate);
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
+        return dateFormat.format(date);
     }
 
     public String getContent() {

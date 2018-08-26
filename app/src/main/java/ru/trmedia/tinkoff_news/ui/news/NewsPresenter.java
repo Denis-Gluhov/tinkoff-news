@@ -1,44 +1,44 @@
-package ru.trmedia.tinkoff_news.news;
+package ru.trmedia.tinkoff_news.ui.news;
 
 import android.support.annotation.NonNull;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import ru.trmedia.tinkoff_news.App;
+import ru.trmedia.tinkoff_news.ui.BasePresenter;
 import ru.trmedia.tinkoff_news.database.entity.News;
 
 @InjectViewState
-public class NewsPresenter extends MvpPresenter<NewsContract.View> implements NewsContract.Presenter {
+public class NewsPresenter extends BasePresenter<NewsContract.View> implements NewsContract.Presenter {
 
     @Inject
     NewsContract.Interactor interactor;
 
-    private final CompositeDisposable compositeDisposable;
-
     NewsPresenter() {
+        super();
         App.getInstance().createNewsComponent().inject(this);
-        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
     public void loadData() {
+        if (compositeDisposable.size() == 0) {
             compositeDisposable.add(interactor.loadData()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe(disposable -> getViewState().onShowLoading(true))
-                    .doAfterTerminate(() -> getViewState().onShowLoading(false))
+                    .doOnSubscribe(disposable -> getViewState().onShowLoadData())
+                    .doAfterTerminate(() -> getViewState().onHideLoadData())
                     .subscribe(this::success, this::error));
+        }
     }
 
-    private void error(@NonNull Throwable throwable) {
+    @Override
+    public void error(@NonNull Throwable throwable) {
         compositeDisposable.clear();
         getViewState().onShowMessage(throwable.getMessage());
     }
@@ -55,7 +55,7 @@ public class NewsPresenter extends MvpPresenter<NewsContract.View> implements Ne
 
     @Override
     public void destroy() {
-        compositeDisposable.clear();
+        super.destroy();
         App.getInstance().clearNewsComponent();
     }
 }

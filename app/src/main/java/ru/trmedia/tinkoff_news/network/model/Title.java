@@ -2,7 +2,7 @@ package ru.trmedia.tinkoff_news.network.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Payload {
+public class Title {
 
     @SerializedName("id")
     private String id;
@@ -13,11 +13,11 @@ public class Payload {
     @SerializedName("text")
     private String text;
 
-    @SerializedName("publicationDate")
+    @SerializedName("date")
     private Date date;
 
     @SerializedName("bankInfoTypeId")
-    private int bankInfoTypeId;
+    private Integer bankInfoTypeId;
 
     public String getId() {
         return id;
@@ -35,7 +35,7 @@ public class Payload {
         return date;
     }
 
-    public int getBankInfoTypeId() {
+    public Integer getBankInfoTypeId() {
         return bankInfoTypeId;
     }
 }

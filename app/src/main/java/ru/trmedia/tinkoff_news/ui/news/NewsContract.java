@@ -1,23 +1,23 @@
-package ru.trmedia.tinkoff_news.news;
+package ru.trmedia.tinkoff_news.ui.news;
 
 import android.support.annotation.NonNull;
 
-import com.arellomobile.mvp.MvpView;
+import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
 import io.reactivex.Maybe;
 import ru.trmedia.tinkoff_news.database.entity.News;
+import ru.trmedia.tinkoff_news.ui.BaseView;
 
 public interface NewsContract {
 
-    interface View extends MvpView {
-        void onShowLoading(boolean loading);
-
+    interface View extends BaseView {
+        @StateStrategyType(AddToEndSingleStrategy.class)
         void onSetData(@NonNull List<News> data);
 
-        void onShowMessage(@NonNull String message);
-
+        @StateStrategyType(AddToEndSingleStrategy.class)
         void onShowDetailNews(@NonNull String id);
     }
 
@@ -25,8 +25,6 @@ public interface NewsContract {
         void loadData();
 
         void selectedItem(@NonNull String id);
-
-        void destroy();
     }
 
     interface Interactor {

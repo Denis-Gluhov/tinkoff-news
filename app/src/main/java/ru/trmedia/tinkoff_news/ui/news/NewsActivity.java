@@ -1,4 +1,4 @@
-package ru.trmedia.tinkoff_news.news;
+package ru.trmedia.tinkoff_news.ui.news;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import ru.trmedia.tinkoff_news.R;
 import ru.trmedia.tinkoff_news.database.entity.News;
-import ru.trmedia.tinkoff_news.detailnews.DetailNewsActivity;
+import ru.trmedia.tinkoff_news.ui.detailnews.DetailNewsActivity;
 
 public class NewsActivity extends MvpAppCompatActivity implements NewsContract.View,
         NewsAdapter.NewsAdapterListener {
@@ -60,8 +60,13 @@ public class NewsActivity extends MvpAppCompatActivity implements NewsContract.V
     }
 
     @Override
-    public void onShowLoading(boolean loading) {
-        rlUpdateData.setRefreshing(loading);
+    public void onShowLoadData() {
+        rlUpdateData.setRefreshing(true);
+    }
+
+    @Override
+    public void onHideLoadData() {
+        rlUpdateData.setRefreshing(false);
     }
 
     @Override
